@@ -110,7 +110,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
   };
 
   const checkPassword = (_, value) => {
-    const promise = Promise; // 没有值的情况
+    const promise = Promise;
 
     if (!value) {
       setvisible(!!value);
@@ -119,7 +119,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
           id: 'userandregister.password.required',
         }),
       );
-    } // 有值的情况
+    }
 
     if (!visible) {
       setvisible(!!value);
@@ -265,80 +265,80 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
             })}
           />
         </FormItem>
-        <InputGroup compact>
-          <Select
-            size="large"
-            value={prefix}
-            onChange={changePrefix}
-            style={{
-              width: '20%',
-            }}
-          >
-            <Option value="86">+86</Option>
-            <Option value="87">+87</Option>
-          </Select>
-          <FormItem
-            style={{
-              width: '80%',
-            }}
-            name="mobile"
-            rules={[
-              {
-                required: true,
-                message: formatMessage({
-                  id: 'userandregister.phone-number.required',
-                }),
-              },
-              {
-                pattern: /^\d{11}$/,
-                message: formatMessage({
-                  id: 'userandregister.phone-number.wrong-format',
-                }),
-              },
-            ]}
-          >
-            <Input
-              size="large"
-              placeholder={formatMessage({
-                id: 'userandregister.phone-number.placeholder',
-              })}
-            />
-          </FormItem>
-        </InputGroup>
+        {/*<InputGroup compact>*/}
+        {/*  <Select*/}
+        {/*    size="large"*/}
+        {/*    value={prefix}*/}
+        {/*    onChange={changePrefix}*/}
+        {/*    style={{*/}
+        {/*      width: '20%',*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <Option value="86">+86</Option>*/}
+        {/*    <Option value="87">+87</Option>*/}
+        {/*  </Select>*/}
+          {/*<FormItem*/}
+          {/*  style={{*/}
+          {/*    width: '80%',*/}
+          {/*  }}*/}
+          {/*  name="mobile"*/}
+          {/*  rules={[*/}
+          {/*    {*/}
+          {/*      required: true,*/}
+          {/*      message: formatMessage({*/}
+          {/*        id: 'userandregister.phone-number.required',*/}
+          {/*      }),*/}
+          {/*    },*/}
+          {/*    {*/}
+          {/*      pattern: /^\d{11}$/,*/}
+          {/*      message: formatMessage({*/}
+          {/*        id: 'userandregister.phone-number.wrong-format',*/}
+          {/*      }),*/}
+          {/*    },*/}
+          {/*  ]}*/}
+          {/*>*/}
+            {/*<Input*/}
+            {/*  size="large"*/}
+            {/*  placeholder={formatMessage({*/}
+            {/*    id: 'userandregister.phone-number.placeholder',*/}
+            {/*  })}*/}
+            {/*/>*/}
+          {/*</FormItem>*/}
+        {/*</InputGroup>*/}
         <Row gutter={8}>
           <Col span={16}>
-            <FormItem
-              name="captcha"
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({
-                    id: 'userandregister.verification-code.required',
-                  }),
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                placeholder={formatMessage({
-                  id: 'userandregister.verification-code.placeholder',
-                })}
-              />
-            </FormItem>
+            {/*<FormItem*/}
+            {/*  name="captcha"*/}
+            {/*  rules={[*/}
+            {/*    {*/}
+            {/*      required: true,*/}
+            {/*      message: formatMessage({*/}
+            {/*        id: 'userandregister.verification-code.required',*/}
+            {/*      }),*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*>*/}
+              {/*<Input*/}
+              {/*  size="large"*/}
+              {/*  placeholder={formatMessage({*/}
+              {/*    id: 'userandregister.verification-code.placeholder',*/}
+              {/*  })}*/}
+              {/*/>*/}
+            {/*</FormItem>*/}
           </Col>
           <Col span={8}>
-            <Button
-              size="large"
-              disabled={!!count}
-              className={styles.getCaptcha}
-              onClick={onGetCaptcha}
-            >
-              {count
-                ? `${count} s`
-                : formatMessage({
-                    id: 'userandregister.register.get-verification-code',
-                  })}
-            </Button>
+            {/*<Button*/}
+            {/*  size="large"*/}
+            {/*  disabled={!!count}*/}
+            {/*  className={styles.getCaptcha}*/}
+            {/*  onClick={onGetCaptcha}*/}
+            {/*>*/}
+            {/*  {count*/}
+            {/*    ? `${count} s`*/}
+            {/*    : formatMessage({*/}
+            {/*        id: 'userandregister.register.get-verification-code',*/}
+            {/*      })}*/}
+            {/*</Button>*/}
           </Col>
         </Row>
         <FormItem>

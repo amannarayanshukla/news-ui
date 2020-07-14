@@ -1,12 +1,6 @@
-/**
- * Ant Design Pro v4 use `@ant-design/pro-layout` to handle Layout.
- * You can view component api by:
- * https://github.com/ant-design/ant-design-pro-layout
- */
 import ProLayout, { DefaultFooter, SettingDrawer } from '@ant-design/pro-layout';
 import React, { useEffect } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
@@ -40,26 +34,14 @@ const menuDataRender = menuList =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright={`${new Date().getFullYear()} 蚂蚁金服体验技术部出品`}
+    copyright={`${new Date().getFullYear()} Company name`}
     links={[
       {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
+        key: 'Company name',
+        title: 'Company name',
+        href: '',
         blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
+      }
     ]}
   />
 );
@@ -73,9 +55,6 @@ const BasicLayout = props => {
       pathname: '/',
     },
   } = props;
-  /**
-   * constructor
-   */
 
   useEffect(() => {
     if (dispatch) {
@@ -84,9 +63,6 @@ const BasicLayout = props => {
       });
     }
   }, []);
-  /**
-   * init variables
-   */
 
   const handleMenuCollapse = payload => {
     if (dispatch) {
@@ -95,7 +71,7 @@ const BasicLayout = props => {
         payload,
       });
     }
-  }; // get children authority
+  };
 
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
