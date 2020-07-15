@@ -3,7 +3,7 @@ import {connect} from 'umi';
 
 const AllOrder = () => {
   return (
-    <h4>Show all order here</h4>
+    <h4>Show all orders here</h4>
   );
 };
 
