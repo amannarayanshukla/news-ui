@@ -7,7 +7,7 @@ import Footer from '../components/Footer/Footer';
 import logo from '../assets/logo.svg';
 import styles from './UserLayout.less';
 
-const UserLayout = props => {
+const SearchLayout = props => {
   const {
     route = {
       routes: [],
@@ -54,4 +54,4 @@ const UserLayout = props => {
   );
 };
 
-export default connect(({ settings }) => ({ ...settings }))(UserLayout);
+export default connect(({ settings }) => ({ ...settings }))(SearchLayout);
