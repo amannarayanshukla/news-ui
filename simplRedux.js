@@ -1,5 +1,5 @@
 
-let action = {
+let action_1 = {
   type : 'ADD_TODO',
   todo: {
     id: 0,
@@ -8,6 +8,22 @@ let action = {
   }
 }
 
+let action_2 = {
+  type: 'REMOVE_TODO',
+  todo: 0
+}
+
+let action_3 = {
+  type:'TOGGLE_TODO',
+  todo: 0
+}
+
+let action_4 = {
+  type:'UPDATE',
+  todo:0
+}
+
+//  it reduces the state and action and gives us one state
 const reducer = (state = [], action) => {
   if(action.type === 'ADD_TODO'){
     return state.concat([action.todo])
@@ -35,8 +51,8 @@ function  createStore() {
   }
 
   const dispatch = (action) => {
-    reducer(state,action)
-    listeners.map(listener => listener())
+    state = reducer(state,action)
+    listeners.forEach(listener => listener())
   }
 
 
@@ -50,13 +66,7 @@ function  createStore() {
 const store = createStore();
 
 const unsubscribe = store.subscribe(() => {
-
-})
-store.subscribe(() => {
-
-})
-store.subscribe(() => {
-
+  console.log(`This is the state ${store.getState()}`)
 })
 
 store.dispatch({

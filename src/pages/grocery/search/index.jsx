@@ -1,9 +1,21 @@
 import React  from 'react';
 import {connect} from 'umi';
 
+const todoList = [];
+
+const pushTask = (e) => {
+  e.preventDefault();
+  console.log(todoList,"TODO");
+  console.log(e.target.value);
+}
+
 const Search = () => {
   return (
-    <h4>Show search here</h4>
+    <div>
+      <input/>
+      <button type="submit" onClick={pushTask}>Submit</button>
+      {todoList ? "todo present" : "no todd"}
+    </div>
   );
 };
 
