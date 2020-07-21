@@ -22,8 +22,8 @@ class Search extends Component {
       everything: [],
       pageSize: 10,
       pageNumber: 1,
-      totalShown: 10,
-      apiKey: '06e32d6f72d64c898ce7f7a7efc03c76',
+      totalShown: 0,
+      apiKey: '',
     };
   }
 
@@ -31,31 +31,35 @@ class Search extends Component {
     const { dispatch } = this.props;
     const { sources, pageSize, pageNumber, apiKey } = this.state;
 
-    dispatch({
-      type: 'news/fetchAllSources',
-      apiKey,
-    });
-
-    dispatch({
-      type: 'news/fetchTopNews',
-      pageSize,
-      pageNumber,
-      apiKey,
-    });
-
-    dispatch({
-      type: 'news/fetchEverythingFromSources',
-      pageSize,
-      pageNumber,
-      sources,
-      apiKey,
-    });
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        pageNumber: prevState.pageNumber + 1,
-        totalShown: prevState.totalShown + prevState.pageSize,
-      };
+    Promise.all([
+      dispatch({
+        type: 'news/fetchAllSources',
+        apiKey,
+      }),
+      dispatch({
+        type: 'news/fetchTopNews',
+        pageSize,
+        pageNumber,
+        apiKey,
+      }),
+      dispatch({
+        type: 'news/fetchEverythingFromSources',
+        pageSize,
+        pageNumber,
+        sources,
+        apiKey,
+      }),
+    ]).then(() => {
+      const { news } = this.props;
+      console.log(news, 'NEWS AT END');
+      this.setState((prevState) => {
+        return {
+          ...prevState,
+          pageNumber: prevState.pageNumber + 1,
+          totalShown: prevState.totalShown + prevState.pageSize,
+          everything: news.everything,
+        };
+      });
     });
   }
 
@@ -83,19 +87,14 @@ class Search extends Component {
         console.log(err, 'ERROR');
         this.setState({ hasMore: false });
       });
-
-    console.log('hello ji');
   };
 
   menuItemClick = (e) => {
-    const { dispatch, news } = this.props;
+    console.log('menu clicked');
+    this.setState({ everything: [] });
+    const { dispatch } = this.props;
     let { sources, pageNumber } = this.state;
     const { pageSize, apiKey } = this.state;
-    this.setState({
-      sources: e.key,
-      pageNumber: 1,
-      totalShown: 10,
-    });
     sources = e.key;
     pageNumber = 1;
 
@@ -107,12 +106,14 @@ class Search extends Component {
       apiKey,
     })
       .then(() => {
+        const { news } = this.props;
         this.setState((prevState) => {
           return {
             ...prevState,
-            pageNumber: prevState.pageNumber + 1,
+            sources: e.key,
+            pageNumber: 2,
             everything: news.everything,
-            totalShown: prevState.totalShown + prevState.pageSize,
+            totalShown: 0 + prevState.pageSize,
           };
         });
       })
@@ -151,7 +152,7 @@ class Search extends Component {
         <Layout className="site-layout" style={{ marginLeft: 200 }}>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-              <Carousel autoplay style={{ padding: '30px' }}>
+              <Carousel autoplay>
                 {news && news.topNews
                   ? news.topNews.map((top) => {
                       return (
@@ -165,7 +166,12 @@ class Search extends Component {
                                   : top.urlToImage
                               }
                               alt="news pic"
-                              style={{ width: '300px', height: 'auto', margin: 'auto' }}
+                              style={{
+                                width: '300px',
+                                height: 'auto',
+                                margin: 'auto',
+                                marginTop: '10px',
+                              }}
                             />
                           }
                           key={top.title}
@@ -180,7 +186,7 @@ class Search extends Component {
                 <InfiniteScroll
                   pageStart={0}
                   loadMore={this.loadFunc}
-                  hasMore={true || false}
+                  hasMore={this.state && this.state.totalShown < 100}
                   loader={
                     <div
                       key={0}
@@ -211,7 +217,8 @@ class Search extends Component {
                             cover={
                               <img
                                 src={
-                                  every.urlToImage === 'null' || every.urlToImage === null
+                                  every &&
+                                  (every.urlToImage === 'null' || every.urlToImage === null)
                                     ? 'https://dummyimage.com/300x200/000/fff'
                                     : every.urlToImage
                                 }
@@ -232,6 +239,20 @@ class Search extends Component {
                         );
                       })
                     : ''}
+                  {this.state && this.state.totalShown && this.state.totalShown > 100 ? (
+                    <div
+                      style={{
+                        color: '#1890ff',
+                        background: '#fff',
+                        border: '1px solid #1890ff',
+                        padding: '10px',
+                      }}
+                    >
+                      Finished loading all News
+                    </div>
+                  ) : (
+                    ''
+                  )}
                 </InfiniteScroll>
               </div>
             </div>
