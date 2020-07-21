@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'umi';
 import { routerRedux } from 'dva/router';
-import { Layout, Menu, Carousel, Card, Icon } from 'antd';
+import { Layout, Menu, Card, Icon } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import styles from './style.less';
+import TopNews from '../../../components/TopNews/index';
 
 const { Content, Footer, Sider } = Layout;
 const { Meta } = Card;
@@ -17,8 +18,6 @@ class Search extends Component {
     super(props);
     this.state = {
       sources: 'abc-news',
-      allSources: [],
-      topNews: [],
       everything: [],
       pageSize: 10,
       pageNumber: 1,
@@ -31,6 +30,8 @@ class Search extends Component {
     const { dispatch } = this.props;
     const { sources, pageSize, pageNumber, apiKey } = this.state;
 
+    // once all the dispatch is called and state is updated
+    // error is already handled at the service
     Promise.all([
       dispatch({
         type: 'news/fetchAllSources',
@@ -62,6 +63,8 @@ class Search extends Component {
     });
   }
 
+  // whenever we reach the bottom of the screen new data is loaded and thus enabling infinite loading
+  // this will only load first 100 since that is only free.
   loadFunc = () => {
     const { dispatch, news } = this.props;
     const { sources, pageSize, pageNumber, apiKey } = this.state;
@@ -73,6 +76,7 @@ class Search extends Component {
       apiKey,
     })
       .then(() => {
+        // concatenating the values of everything
         this.setState((prevState) => {
           return {
             ...prevState,
@@ -88,6 +92,7 @@ class Search extends Component {
       });
   };
 
+  // News is updated from the source selected
   menuItemClick = (e) => {
     console.log('menu clicked');
     this.setState({ everything: [] });
@@ -97,6 +102,7 @@ class Search extends Component {
     sources = e.key;
     pageNumber = 1;
 
+    // once the dispatch is resolved the state is updated with the new props value
     dispatch({
       type: 'news/fetchEverythingFromSources',
       pageSize,
@@ -144,31 +150,7 @@ class Search extends Component {
         <Layout className={`site-layout ${styles.layout}`}>
           <Content className={styles.content}>
             <div className={`site-layout-background ${styles.subContent}`}>
-              <Carousel autoplay>
-                {news && news.topNews
-                  ? news.topNews.map((top) => {
-                      return (
-                        <Card
-                          className={styles.carousalCard}
-                          cover={
-                            <img
-                              src={
-                                top.urlToImage === 'null' || top.urlToImage === null
-                                  ? 'https://dummyimage.com/300x200/000/fff'
-                                  : top.urlToImage
-                              }
-                              alt="news pic"
-                              className={styles.carousalCardImage}
-                            />
-                          }
-                          key={top.title}
-                        >
-                          <Meta title={top.title} description={top.description} />
-                        </Card>
-                      );
-                    })
-                  : ''}
-              </Carousel>
+              <TopNews news={news} />
               <div className={styles.infiniteContainer}>
                 <InfiniteScroll
                   pageStart={0}
@@ -204,6 +186,7 @@ class Search extends Component {
                               const { dispatch } = this.props;
                               dispatch(
                                 routerRedux.push(`/news/one/${every.title}`, { news: every }),
+                                // routerRedux.push(`/news/one/${every.title}`),
                               );
                             }}
                             key={every.title}

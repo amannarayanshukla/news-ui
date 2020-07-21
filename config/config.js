@@ -25,6 +25,7 @@ export default defineConfig({
   },
   // umi routes: https://umijs.org/docs/routing
   routes: [
+    // when base url redirect to /news/all
     {
       path: '/',
       redirect: '/news/all',
@@ -37,22 +38,26 @@ export default defineConfig({
           path: '/news',
           component: '../layouts/BlankLayout',
           routes: [
+            // /news endpoint will also be redirected to /news/all
             {
               path: '/news',
               redirect: '/news/all',
             },
+            // ./news/all component form the pages directory loaded
             {
               name: 'search',
               icon: 'smile',
               path: '/news/all',
               component: './news/all',
             },
+            // ./news/one component form the pages directory loaded
             {
               name: 'shops',
               icon: 'smile',
               path: '/news/one/:id?',
               component: './news/one',
             },
+            // all the rest end points are now pointing to 404 page
             {
               component: '404',
             },
