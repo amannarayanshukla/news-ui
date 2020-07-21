@@ -26,8 +26,8 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
-      path : '/',
-      redirect: '/user/login'
+      path: '/',
+      redirect: '/user/login',
     },
     {
       path: '/',
@@ -90,7 +90,7 @@ export default defineConfig({
         },
         {
           path: '/grocery',
-          component: '../layouts/SearchLayout',
+          component: '../layouts/BlankLayout',
           routes: [
             {
               path: '/grocery',
@@ -104,15 +104,15 @@ export default defineConfig({
             },
             {
               name: 'shops-all',
-              icon:'smile',
+              icon: 'smile',
               path: '/grocery/shops/all',
-              component: './grocery/all_shops'
+              component: './grocery/all_shops',
             },
             {
-              name : 'shops',
-              icon:'smile',
-              path:'/grocery/shops',
-              component: './grocery/shop'
+              name: 'shops',
+              icon: 'smile',
+              path: '/grocery/shops/:id?',
+              component: './grocery/shop',
             },
             {
               component: '404',
