@@ -4,7 +4,7 @@ import { routerRedux } from 'dva/router';
 import { Layout, Menu, Carousel, Card, Icon } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import './style.less';
+import styles from './style.less';
 
 const { Content, Footer, Sider } = Layout;
 const { Meta } = Card;
@@ -23,7 +23,7 @@ class Search extends Component {
       pageSize: 10,
       pageNumber: 1,
       totalShown: 0,
-      apiKey: '',
+      apiKey: 'd6bf9a9eb5714d16a3e1c31d8cf6df6d',
     };
   }
 
@@ -51,7 +51,6 @@ class Search extends Component {
       }),
     ]).then(() => {
       const { news } = this.props;
-      console.log(news, 'NEWS AT END');
       this.setState((prevState) => {
         return {
           ...prevState,
@@ -127,14 +126,7 @@ class Search extends Component {
     const { news } = this.props;
     return (
       <Layout>
-        <Sider
-          style={{
-            overflow: 'auto',
-            height: '100vh',
-            position: 'fixed',
-            left: 0,
-          }}
-        >
+        <Sider className={styles.sider}>
           <div className="logo" />
           <Menu
             theme="light"
@@ -149,15 +141,15 @@ class Search extends Component {
               : ''}
           </Menu>
         </Sider>
-        <Layout className="site-layout" style={{ marginLeft: 200 }}>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-            <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
+        <Layout className={`site-layout ${styles.layout}`}>
+          <Content className={styles.content}>
+            <div className={`site-layout-background ${styles.subContent}`}>
               <Carousel autoplay>
                 {news && news.topNews
                   ? news.topNews.map((top) => {
                       return (
                         <Card
-                          style={{ width: 300 }}
+                          className={styles.carousalCard}
                           cover={
                             <img
                               src={
@@ -166,12 +158,7 @@ class Search extends Component {
                                   : top.urlToImage
                               }
                               alt="news pic"
-                              style={{
-                                width: '300px',
-                                height: 'auto',
-                                margin: 'auto',
-                                marginTop: '10px',
-                              }}
+                              className={styles.carousalCardImage}
                             />
                           }
                           key={top.title}
@@ -182,21 +169,13 @@ class Search extends Component {
                     })
                   : ''}
               </Carousel>
-              <div style={{ height: '400px', overflow: 'auto' }}>
+              <div className={styles.infiniteContainer}>
                 <InfiniteScroll
                   pageStart={0}
                   loadMore={this.loadFunc}
                   hasMore={this.state && this.state.totalShown < 100}
                   loader={
-                    <div
-                      key={0}
-                      style={{
-                        textAlign: 'center',
-                        marginTop: 10,
-                        marginBottom: 10,
-                        color: '#4384f5',
-                      }}
-                    >
+                    <div key={0} className={styles.infiniteDiv}>
                       <Icon type="loading" />
                       &nbsp;Loading
                     </div>
@@ -208,12 +187,7 @@ class Search extends Component {
                     ? this.state.everything.map((every) => {
                         return (
                           <Card
-                            style={{
-                              width: 300,
-                              display: 'flex',
-                              flexDirection: 'row',
-                              marginBottom: '20px',
-                            }}
+                            className={styles.infiniteCard}
                             cover={
                               <img
                                 src={
@@ -223,13 +197,13 @@ class Search extends Component {
                                     : every.urlToImage
                                 }
                                 alt="news pic"
-                                style={{ width: '300px', height: 'auto', margin: 'auto' }}
+                                className={styles.infiniteCardImage}
                               />
                             }
                             onClick={() => {
                               const { dispatch } = this.props;
                               dispatch(
-                                routerRedux.push(`/grocery/shops/${every.title}`, { news: every }),
+                                routerRedux.push(`/news/one/${every.title}`, { news: every }),
                               );
                             }}
                             key={every.title}
@@ -240,16 +214,7 @@ class Search extends Component {
                       })
                     : ''}
                   {this.state && this.state.totalShown && this.state.totalShown > 100 ? (
-                    <div
-                      style={{
-                        color: '#1890ff',
-                        background: '#fff',
-                        border: '1px solid #1890ff',
-                        padding: '10px',
-                      }}
-                    >
-                      Finished loading all News
-                    </div>
+                    <div className={styles.finish}>Finished loading all News</div>
                   ) : (
                     ''
                   )}

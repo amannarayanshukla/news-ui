@@ -27,92 +27,31 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/user/login',
+      redirect: '/news/all',
     },
     {
       path: '/',
       component: '../layouts/BlankLayout',
       routes: [
         {
-          path: '/user',
-          component: '../layouts/UserLayout',
-          routes: [
-            {
-              path: '/user',
-              redirect: '/user/login',
-            },
-            {
-              name: 'login',
-              icon: 'smile',
-              path: '/user/login',
-              component: './user/login',
-            },
-            {
-              name: 'register-result',
-              icon: 'smile',
-              path: '/user/register-result',
-              component: './user/register-result',
-            },
-            {
-              name: 'register',
-              icon: 'smile',
-              path: '/user/register',
-              component: './user/register',
-            },
-            {
-              name: 'profile',
-              icon: 'smile',
-              path: '/user/profile',
-              component: './user/profile',
-            },
-            {
-              name: 'checkout',
-              icon: 'smile',
-              path: '/user/checkout',
-              component: './user/checkout',
-            },
-            {
-              name: 'order-all',
-              icon: 'smile',
-              path: '/user/order/all',
-              component: './user/all_orders',
-            },
-            {
-              name: 'order',
-              icon: 'smile',
-              path: '/user/order',
-              component: './user/order',
-            },
-            {
-              component: '404',
-            },
-          ],
-        },
-        {
-          path: '/grocery',
+          path: '/news',
           component: '../layouts/BlankLayout',
           routes: [
             {
-              path: '/grocery',
-              redirect: '/grocery/search',
+              path: '/news',
+              redirect: '/news/all',
             },
             {
               name: 'search',
               icon: 'smile',
-              path: '/grocery/search',
-              component: './grocery/search',
-            },
-            {
-              name: 'shops-all',
-              icon: 'smile',
-              path: '/grocery/shops/all',
-              component: './grocery/all_shops',
+              path: '/news/all',
+              component: './news/all',
             },
             {
               name: 'shops',
               icon: 'smile',
-              path: '/grocery/shops/:id?',
-              component: './grocery/shop',
+              path: '/news/one/:id?',
+              component: './news/one',
             },
             {
               component: '404',
